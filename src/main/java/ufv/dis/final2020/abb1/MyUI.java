@@ -1,7 +1,10 @@
 package ufv.dis.final2020.abb1;
 
+import java.io.IOException;
+
 import javax.servlet.annotation.WebServlet;
 
+import com.google.zxing.WriterException;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -26,16 +29,30 @@ public class MyUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
         
+        Inventario inventario = new Inventario();
+        
         final TextField name = new TextField();
         name.setCaption("Type your name here:");
+        
+        final TextField ean13 = new TextField();
+        ean13.setCaption("Type your ean13 here:");
+        
+        final TextField category = new TextField();
+        category.setCaption("Type your category here:");
+        
+        final TextField price = new TextField();
+        price.setCaption("Type your price here:");
 
         Button button = new Button("Click Me");
         button.addClickListener(e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
+            
+        	Producto p =  new Producto(name.getValue(), category.getValue(), ean13.getValue(), Float.parseFloat(price.getValue()));
+        	inventario.addProduct(p);
+        	
+        	
         });
         
-        layout.addComponents(name, button);
+        layout.addComponents(name, ean13, category, price, button);
         
         setContent(layout);
     }
